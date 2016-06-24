@@ -1,0 +1,82 @@
+---
+title: "3D Plotting"
+author: "Andre Cavalcanti"
+date: "June 23, 2016"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(mosaic)
+library(plotly)
+library(shiny)
+```
+
+```{r}
+myData <- read.csv("dataBirds.csv")
+myList <- colnames(myData)[2:length(myData)]
+```
+
+Here is your data frame:
+
+```{r}
+tableOutput(outputId = "dataToShow")
+```
+
+```{r}
+output$dataToShow <- 
+  renderTable(head(myData), options = list(pageLength = 5))
+```
+
+
+Choose the variables to plot:
+
+```{r}
+
+sidebarLayout(
+
+    sidebarPanel(
+      selectInput(inputId = "axisX", label = "X axis:", choices = myList, selected = myList[1]),
+      selectInput(inputId = "axisY", label = "Y axis:", choices = myList, selected = myList[2]),
+      selectInput(inputId = "axisZ", label = "Z axis:", choices = myList, selected = myList[3]),
+      selectInput(inputId = "myColor", label = "Marker Color By:", choices = myList, selected = myList[5]),
+      selectInput(inputId = "mySize", label = "Marker Size By:", choices = myList, selected = myList[6]),
+      selectInput(inputId = "myShape", label = "Glyph Shape By: (pick a factor variable)", choices = myList, selected = myList[7])
+    ),
+
+    mainPanel(
+      plotlyOutput(outputId = "d_plot")
+    )
+  )
+
+```
+
+
+```{r}
+output$d_plot <-
+  renderPlotly(
+    {
+      plot_ly(myData, 
+              x = myData[[input$axisX]], 
+              y = myData[[input$axisY]], 
+              z = myData[[input$axisZ]], 
+              type = "scatter3d", 
+              mode = "markers", 
+              text = paste("File: ", Name), 
+              color = myData[[input$myColor]], 
+              size = myData[[input$mySize]], 
+              symbol = myData[[input$myShape]]
+              ) %>%
+        layout(title = " Your graph",
+               scene = list(
+                  xaxis = list(title = input$axisX),
+                  yaxis = list(title = input$axisY),
+                  zaxis = list(title = input$axisZ)
+                  )
+              )
+    }
+  )
+
+```
+
