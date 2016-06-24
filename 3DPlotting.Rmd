@@ -7,19 +7,30 @@ runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 library(mosaic)
 library(plotly)
 library(shiny)
 ```
 
+### Summary/Instructions
+
+This shiny app reads data from a file into a dataframe, gets the names of the variables in the dataframe and allows you to pick which to use to create a 3D using plotly.
+
+Plotly is an awesome javascript library to make interactive graphs.
+
+
+#### Reading the file
+
+Change dataBirds.csv to the name of your file:
 ```{r}
 myData <- read.csv("dataBirds.csv")
 myList <- colnames(myData)[2:length(myData)]
 ```
 
-Here is your data frame:
+#### Summary of your data
 
+Here is your data frame:
 ```{r}
 tableOutput(outputId = "dataToShow")
 ```
@@ -29,6 +40,7 @@ output$dataToShow <-
   renderTable(head(myData), options = list(pageLength = 5))
 ```
 
+#### Plotting:
 
 Choose the variables to plot:
 
