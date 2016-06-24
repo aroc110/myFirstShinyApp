@@ -25,7 +25,8 @@ Plotly is an awesome javascript library to make interactive graphs.
 Change dataBirds.csv to the name of your file:
 ```{r}
 myData <- read.csv("dataBirds.csv")
-myList <- colnames(myData)[2:length(myData)]
+myList <- colnames(myData)  # [2:length(myData)]
+myList[1] <- " "
 ```
 
 #### Summary of your data
@@ -50,11 +51,11 @@ sidebarLayout(
 
     sidebarPanel(
       selectInput(inputId = "axisX", label = "X axis:", choices = myList, selected = myList[1]),
-      selectInput(inputId = "axisY", label = "Y axis:", choices = myList, selected = myList[2]),
-      selectInput(inputId = "axisZ", label = "Z axis:", choices = myList, selected = myList[3]),
-      selectInput(inputId = "myColor", label = "Marker Color By:", choices = myList, selected = myList[5]),
-      selectInput(inputId = "mySize", label = "Marker Size By:", choices = myList, selected = myList[6]),
-      selectInput(inputId = "myShape", label = "Glyph Shape By: (pick a factor variable)", choices = myList, selected = myList[7])
+      selectInput(inputId = "axisY", label = "Y axis:", choices = myList, selected = myList[1]),
+      selectInput(inputId = "axisZ", label = "Z axis:", choices = myList, selected = myList[1]),
+      selectInput(inputId = "myColor", label = "Marker Color By:", choices = myList, selected = myList[1]),
+      selectInput(inputId = "mySize", label = "Marker Size By:", choices = myList, selected = myList[1]),
+      selectInput(inputId = "myShape", label = "Glyph Shape By: (pick a factor variable)", choices = myList, selected = myList[1])
     ),
 
     mainPanel(
